@@ -16,31 +16,32 @@ $(document).on("click", "#leave-comment", function() {
     })
     .then(function(data){
         console.log(data);
-        $("#comments").append("<h3>" + data.title + "</h2");
-        $("#comments").append("<textarea id='bodyinput' name='body'></textarea>"+ "<br />");
+        $("#comments").append("<h3>" + data.title + "</h3>");
+        $("#comments").append("<input id='titleinput' name='title' >" + "<br />");
+        $("#comments").append("<textarea id='bodyinput' name='body'></textarea>" + "<br />");
         $("#comments").append("<button data-id='" + data._id + "' id='save-note'>Save Note</button>");
 
-        if (data.note) {
-            $("#titleinput").val(data.note.title);
-            $("#bodyinput").val(data.note.body);
-        }
+        // if (data.comment) {
+        //     $("#titleinput").val(data.comment.title);
+        //     $("#bodyinput").val(data.comment.body);
+        // }
     });
 });
 
 $(document).on("click", "#save-note", function() {
-    var commentID = $(this).attr("data-id");
+    var saveID = $(this).attr("data-id");
 
     $.ajax({
         method: "POST",
-        url: "/articles/" + commentID,
+        url: "/articles/" + saveID,
         data: {
-            title: $("titleinput").val(),
-            body: $("bodyinput").val()
+            title: $("#titleinput").val(),
+            body: $("#bodyinput").val()
         }
     })
-    .then(function(data) {
-        console.log(data);
-        $("comments").empty();
+    .then(function(saving) {
+        console.log(saving);
+        $("#comments").empty();
     });
 
     $("#titleinput").val("");
