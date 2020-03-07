@@ -1,8 +1,12 @@
+body {
+    background-color: lightgoldenrodyellow;
+}
+
 #wrapper {
     width: 960px;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 5%;
+    background-color: white;
   }
 
 #articles {

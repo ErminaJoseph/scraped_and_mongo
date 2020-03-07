@@ -14,8 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/scrapedassignment", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scrapedassignment";
 
+mongoose.connect(MONGODB_URI), { useNewUrlParser: true };
 
 app.get("/scrape", function(req, res) {
   axios.get("https://www.buzzfeed.com").then(function(response) {
