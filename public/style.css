@@ -1,0 +1,25 @@
+#wrapper {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5%;
+  }
+
+#articles {
+    overflow: auto;
+    display: inline-block;
+    height: 300px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: darkred;
+    color: white;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+
+#article-headline {
+    font-size: 20px;
+    font-weight: bold;
+}

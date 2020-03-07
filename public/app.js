@@ -1,8 +1,17 @@
 $.getJSON("/articles", function(data) {
     for (var i = 0; i < data.length; i++) {
-        $("#articles").append("<p>" + data[i].title + "<br />" + data[i].summary+ "<br />" + data[i].link + "</p>");
+        $("#articles").append("<p id='article-headline'>" + data[i].title + "</p>" + "<p id='article-summary'>" + data[i].summary +  
+        "</p>" + "<p id='article-link'>" + data[i].link + "</p>");
         $("#articles").append("<button id='leave-comment' data-id=" + data[i]._id + "> Leave a Comment! </button>")
         $("#articles").append("<hr />")
+    }
+});
+
+$.getJSON("/saved-comments", function(data) {
+    for (var i = 0; i < data.length; i++) {
+        $("#saved-comments-div").append("<p>" + data[i].title + "<br />" + data[i].body + "</p>");
+        $("#saved-comments-div").append("<button id='delete-comment' data-id=" + data[i]._id + "> Delete! </button>")
+        $("#saved-comments-div").append("<hr />")
     }
 });
 
@@ -19,16 +28,16 @@ $(document).on("click", "#leave-comment", function() {
         $("#comments").append("<h3>" + data.title + "</h3>");
         $("#comments").append("<input id='titleinput' name='title' >" + "<br />");
         $("#comments").append("<textarea id='bodyinput' name='body'></textarea>" + "<br />");
-        $("#comments").append("<button data-id='" + data._id + "' id='save-note'>Save Note</button>");
+        $("#comments").append("<button data-id='" + data._id + "' id='save-comment'>Post Comment!</button>");
 
-        // if (data.comment) {
-        //     $("#titleinput").val(data.comment.title);
-        //     $("#bodyinput").val(data.comment.body);
-        // }
+        if (data.comment) {
+            $("#titleinput").val(data.comment.title);
+            $("#bodyinput").val(data.comment.body);
+        }
     });
 });
 
-$(document).on("click", "#save-note", function() {
+$(document).on("click", "#save-comment", function() {
     var saveID = $(this).attr("data-id");
 
     $.ajax({
@@ -46,4 +55,17 @@ $(document).on("click", "#save-note", function() {
 
     $("#titleinput").val("");
     $("#bodyinput").val("");
-})
+});
+
+$(document).on("click", "#delete-comment", function() {
+    var deleteID = $(this).attr("data-id");
+
+    $.ajax({
+        method: "DELETE",
+        url: "/saved-comments/" + deleteID
+    })
+    .then(function(deleted) {
+        console.log(deleted);
+        location.reload(true);
+    });
+});

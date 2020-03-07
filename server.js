@@ -62,7 +62,7 @@ app.get("/articles", function(req, res) {
 
 app.get("/articles/:id", function(req, res) {
     db.Article.findOne({ _id: req.params.id })
-    .populate("note")
+    .populate("comment")
     .then(function(dbArticle) {
       res.json(dbArticle);
     })
@@ -82,6 +82,29 @@ app.post("/articles/:id", function(req, res) {
     res.json(err);
   })
 });
+
+app.get("/saved-comments", function(req,res) {
+  db.Comment.find({})
+  .populate("comment")
+  .then(function(dbComment) {
+    res.json(dbComment)
+  })
+  .catch(function(err) {
+    res.json(err)
+  })
+})
+
+app.delete("/saved-comments/:id", function(req, res) {
+  db.Comment.remove( {_id: req.params.id} )
+  .then(function(dbComment) {
+    res.json(dbComment)
+    console.log(dbComment)
+  })
+  .catch(function(err) {
+    res.json(err)
+  })
+
+})
 
 
 app.listen(PORT, function() {
