@@ -1,4 +1,5 @@
 $.getJSON("/articles", function(data) {
+    console.log(data[0]);
     for (var i = 0; i < data.length; i++) {
         $("#articles").append("<p id='article-headline'>" + data[i].title + "</p>" + "<p id='article-summary'>" + data[i].summary +  
         "</p>" + "<p id='article-link'>" + data[i].link + "</p>");
@@ -8,10 +9,15 @@ $.getJSON("/articles", function(data) {
 });
 
 $.getJSON("/saved-comments", function(data) {
+    console.log("test");
     for (var i = 0; i < data.length; i++) {
-        $("#saved-comments-div").append("<p>" + data[i].title + "<br />" + data[i].body + "</p>");
-        $("#saved-comments-div").append("<button id='delete-comment' data-id=" + data[i]._id + "> Delete! </button>")
-        $("#saved-comments-div").append("<hr />")
+        if (data[i].comment != null) {
+            $("#saved-comments-div").append("<p id='article-headline'>" + data[i].title + "</p>");
+            $("#saved-comments-div").append("<p>" + data[i].comment.title + "</p>");
+            $("#saved-comments-div").append("<p>" + data[i].comment.body + "</p>");
+            $("#saved-comments-div").append("<button id='delete-comment' data-id=" + data[i].comment._id + "> Delete! </button>")
+            $("#saved-comments-div").append("<hr />")
+        }
     }
 });
 
